@@ -1,0 +1,21 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+}
+
+span {
+  font-size: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mapa {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(23, 1fr);
+  aspect-ratio: 23/8;
+  background-color: greenyellow;
+}
+#mapa .visitavel {
+  background-color: blanchedalmond;
+}

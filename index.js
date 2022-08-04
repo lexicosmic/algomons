@@ -75,3 +75,26 @@ const eMapa = [
   { posicao: [7, 21], tipo: "p" },
   { posicao: [7, 22], tipo: "g", ginasio: "R", venceu: false },
 ];
+
+// Captura elementos do DOM
+const mapa = document.querySelector("#mapa");
+
+// Inicia DOM
+for (const elemento of eMapa) {
+  const celula = document.createElement("span");
+  switch (elemento.tipo) {
+    case "c":
+      celula.textContent = "🏙️";
+      break;
+    case "g":
+      celula.textContent = "🏟️";
+      break;
+    default:
+      break;
+  }
+  celula.classList.add("visitavel");
+  const posicao = elemento.posicao;
+  celula.style.gridRow = posicao[0] + 1;
+  celula.style.gridColumn = posicao[1] + 1;
+  mapa.appendChild(celula);
+}
