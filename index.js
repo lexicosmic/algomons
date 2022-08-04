@@ -130,3 +130,14 @@ for (const elemento of eMapa) {
   celula.style.gridColumn = posicao[1] + 1;
   mapa.appendChild(celula);
 }
+
+// Cria jogador
+const jogador = document.createElement("span");
+jogador.textContent = "🏃";
+moveJogador(4, 7);
+
+function moveJogador(linha, coluna) {
+  jogador.style.gridRow = linha;
+  jogador.style.gridColumn = coluna;
+  mapa.appendChild(jogador);
+}
