@@ -99,6 +99,15 @@ const eMapa = [
   { posicao: [7, 22], tipo: "g", ginasio: "R", venceu: false, algomon: 11 },
 ];
 
+const eJogador = {
+  posicao: [3, 6],
+  algMochila: [],
+  algVistos: [],
+  qtdAlgAcordados: 0,
+  qtdInsignias: 0,
+  posicaoAnt: [3, 6],
+};
+
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
 
