@@ -81,6 +81,24 @@ const eMapa = [
   { posicao: [7, 22], tipo: "g", ginasio: "R", venceu: false },
 ];
 
+const eAlgomons = [
+  { nome: "Switchish", ataque: 4, vida: 30, tipo: "c" },
+  { nome: "Dattata", ataque: 3, vida: 40, tipo: "d" },
+  { nome: "Equans", ataque: 3, vida: 40, tipo: "c" },
+  { nome: "Forrow", ataque: 5, vida: 20, tipo: "r" },
+  { nome: "Zubit", ataque: 5, vida: 20, tipo: "d" },
+  { nome: "Elsecute", ataque: 3, vida: 40, tipo: "c" },
+  { nome: "Magicount", ataque: 4, vida: 30, tipo: "r" },
+  { nome: "Alakaram", ataque: 5, vida: 20, tipo: "d" },
+  { nome: "Comparas", ataque: 5, vida: 20, tipo: "c" },
+  { nome: "Iterino", ataque: 3, vida: 40, tipo: "r" },
+  { nome: "Matreebell", ataque: 3, vida: 40, tipo: "d" },
+  { nome: "Ifssauro", ataque: 5, vida: 20, tipo: "c" }, // R
+  { nome: "Whiledle", ataque: 3, vida: 40, tipo: "r" }, // X
+  { nome: "Vectoray", ataque: 4, vida: 30, tipo: "d" }, // Y
+  { nome: "Ceeplusplus", ataque: 8, vida: 50, tipo: "l" }, // Z
+];
+
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
 
