@@ -169,6 +169,12 @@ function btnDirClickListener() {
 function moveJogador(direcao) {
   const posicao = eJogador.posicao;
 
+  atualizaPosicao(direcao, posicao);
+  posicionaJogador();
+  verificaAcaoLocal();
+}
+
+function atualizaPosicao(direcao, posicao) {
   switch (direcao) {
     case "c":
       if (
@@ -199,9 +205,9 @@ function moveJogador(direcao) {
         posicao[1]++;
       break;
   }
-
-  posicionaJogador();
 }
+
+function verificaAcaoLocal() {}
 
 function verificaExistenciaCelula(linha, coluna) {
   const indice = eMapa.findIndex(buscaCelula, [linha, coluna]);
