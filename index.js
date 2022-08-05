@@ -178,7 +178,11 @@ function moveJogadorAux(posicao, indice, continua, direcao) {
   indice = atualizaPosicao(direcao, posicao);
   posicionaJogador();
   continua = executaAcaoLocal(indice, posicao);
-  if (continua) moveJogadorAux(posicao, indice, continua, direcao);
+  if (continua) {
+    setTimeout(() => {
+      moveJogadorAux(posicao, indice, continua, direcao);
+    }, 200);
+  }
 }
 
 function atualizaPosicao(direcao, posicao) {
