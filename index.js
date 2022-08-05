@@ -115,21 +115,26 @@ let movimentoPermitido = true;
 const mapa = document.querySelector("#mapa");
 
 // Inicia DOM
+let ind = 0;
 for (const elemento of eMapa) {
   const celula = document.createElement("span");
   switch (elemento.tipo) {
     case "c":
-      celula.textContent = "🏙️";
+      if (elemento.posicao[0] === 3 && elemento.posicao[1] === 6)
+        celula.textContent = "🌆";
+      else celula.textContent = "🏙️";
       break;
     case "g":
       celula.textContent = "🏟️";
       break;
   }
   celula.classList.add("visitavel");
+  celula.setAttribute("id", `n${ind}`);
   const posicao = elemento.posicao;
   celula.style.gridRow = posicao[0] + 1;
   celula.style.gridColumn = posicao[1] + 1;
   mapa.appendChild(celula);
+  ind++;
 }
 
 // Cria jogador
@@ -172,10 +177,11 @@ function moveJogador(direcao) {
   const posicao = eJogador.posicao;
   let indice = -1;
   let continua = true;
-
   moveJogadorAux(posicao, indice, continua, direcao);
-}
 
+  console.log(eJogador);
+  console.log(eMapa);
+}
 function moveJogadorAux(posicao, indice, continua, direcao) {
   indice = atualizaPosicao(direcao, posicao);
   posicionaJogador();
@@ -209,6 +215,12 @@ function atualizaPosicao(direcao, posicao) {
   }
   return indice;
 }
+function procuraIndiceCelula(linha, coluna) {
+  return eMapa.findIndex(buscaCelula, [linha, coluna]);
+}
+function buscaCelula(celula) {
+  return celula.posicao[0] === this[0] && celula.posicao[1] === this[1];
+}
 
 function executaAcaoLocal(indice, posicao) {
   if (indice === -1) return false;
@@ -219,6 +231,7 @@ function executaAcaoLocal(indice, posicao) {
       case "p":
         return true;
       case "c":
+        acaoCidade(indice, celula);
         eJogador.posicaoRetorno = [...posicao];
         return false;
       case "g":
@@ -227,9 +240,11 @@ function executaAcaoLocal(indice, posicao) {
   }
 }
 
-function procuraIndiceCelula(linha, coluna) {
-  return eMapa.findIndex(buscaCelula, [linha, coluna]);
-}
-function buscaCelula(celula) {
-  return celula.posicao[0] === this[0] && celula.posicao[1] === this[1];
+function acaoCidade(indice, celula) {
+  const visitado = celula.visitado;
+  if (!visitado) {
+    const elemento = document.querySelector(`#n${indice}`);
+    elemento.textContent = "🌆";
+    celula.visitado = true;
+  }
 }
