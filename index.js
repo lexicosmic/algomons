@@ -17,6 +17,8 @@ const eAlgomons = [
   { nome: "Ceeplusplus", ataque: 8, vida: 50, tipo: "l" }, // Z
 ];
 
+const mapaC = 23;
+const mapaL = 8;
 const eMapa = [
   { posicao: [0, 0], tipo: "g", ginasio: "Z", venceu: false, algomon: 14 },
   { posicao: [0, 6], tipo: "c", visitado: false, algomon: 0 },
@@ -132,11 +134,12 @@ for (const elemento of eMapa) {
 // Cria jogador
 const jogador = document.createElement("span");
 jogador.textContent = "🏃";
-posicionaJogador(4, 7);
+posicionaJogador();
 
-function posicionaJogador(linha, coluna) {
-  jogador.style.gridRow = linha;
-  jogador.style.gridColumn = coluna;
+function posicionaJogador() {
+  const posicao = eJogador.posicao;
+  jogador.style.gridRow = posicao[0] + 1;
+  jogador.style.gridColumn = posicao[1] + 1;
   mapa.appendChild(jogador);
 }
 
@@ -165,30 +168,39 @@ function btnDirClickListener() {
 
 function moveJogador(direcao) {
   const posicao = eJogador.posicao;
-  let variacaoL = 0;
-  let variacaoC = 0;
-  console.log(verificaExistenciaCelula(posicao[0] - 1, posicao[1]));
+
   switch (direcao) {
     case "c":
       if (
         posicao[0] > 0 &&
         verificaExistenciaCelula(posicao[0] - 1, posicao[1])
       )
-        variacaoL--;
+        posicao[0]--;
       break;
     case "e":
-      variacaoC--;
+      if (
+        posicao[1] > 0 &&
+        verificaExistenciaCelula(posicao[0], posicao[1] - 1)
+      )
+        posicao[1]--;
       break;
     case "b":
-      variacaoL++;
+      if (
+        posicao[0] < mapaL - 1 &&
+        verificaExistenciaCelula(posicao[0] + 1, posicao[1])
+      )
+        posicao[0]++;
       break;
     case "d":
-      variacaoC++;
+      if (
+        posicao[1] < mapaC - 1 &&
+        verificaExistenciaCelula(posicao[0], posicao[1] + 1)
+      )
+        posicao[1]++;
       break;
   }
 
-  //   console.log(eJogador.posicao);
-  //   console.log(eJogador.posicao[0] - 1 + ", " + eJogador.posicao[1]);
+  posicionaJogador();
 }
 
 function verificaExistenciaCelula(linha, coluna) {
