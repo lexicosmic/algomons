@@ -134,10 +134,38 @@ for (const elemento of eMapa) {
 // Cria jogador
 const jogador = document.createElement("span");
 jogador.textContent = "🏃";
-moveJogador(4, 7);
+posicionaJogador(4, 7);
 
-function moveJogador(linha, coluna) {
+function posicionaJogador(linha, coluna) {
   jogador.style.gridRow = linha;
   jogador.style.gridColumn = coluna;
   mapa.appendChild(jogador);
+}
+
+// Interpreta cliques de movimento
+const btnCima = document.querySelector("#btnCima");
+const btnEsq = document.querySelector("#btnEsq");
+const btnBaixo = document.querySelector("#btnBaixo");
+const btnDir = document.querySelector("#btnDir");
+
+btnCima.addEventListener("click", btnCimaClickListener);
+function btnCimaClickListener() {
+  moveJogador("c");
+}
+btnEsq.addEventListener("click", btnEsqClickListener);
+function btnEsqClickListener() {
+  moveJogador("e");
+}
+btnBaixo.addEventListener("click", btnBaixoClickListener);
+function btnBaixoClickListener() {
+  moveJogador("b");
+}
+btnDir.addEventListener("click", btnDirClickListener);
+function btnDirClickListener() {
+  moveJogador("d");
+}
+
+function moveJogador(direcao) {
+  console.log(eJogador.posicao);
+  console.log(eJogador.posicao[0] - 1 + ", " + eJogador.posicao[1]);
 }
