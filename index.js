@@ -171,12 +171,14 @@ function moveJogador(direcao) {
   let indice = -1;
   let continua = true;
 
-  do {
-    indice = atualizaPosicao(direcao, posicao);
-    posicionaJogador();
-    continua = executaAcaoLocal(indice, posicao);
-  } while (continua);
-  console.log(eJogador);
+  moveJogadorAux(posicao, indice, continua, direcao);
+}
+
+function moveJogadorAux(posicao, indice, continua, direcao) {
+  indice = atualizaPosicao(direcao, posicao);
+  posicionaJogador();
+  continua = executaAcaoLocal(indice, posicao);
+  if (continua) moveJogadorAux(posicao, indice, continua, direcao);
 }
 
 function atualizaPosicao(direcao, posicao) {
