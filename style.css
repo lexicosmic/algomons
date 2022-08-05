@@ -16,6 +16,38 @@ span {
   aspect-ratio: 23/8;
   background-color: greenyellow;
 }
+
 #mapa .visitavel {
   background-color: blanchedalmond;
+}
+
+#botoes {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: ". cima ." "esq baixo dir";
+  gap: 0.25em;
+}
+#botoes > button {
+  aspect-ratio: 1;
+  width: fit-content;
+}
+#btnCima {
+  grid-area: cima;
+  justify-self: center;
+}
+#btnEsq {
+  grid-area: esq;
+  justify-self: end;
+  transform: rotate(-90deg);
+}
+#btnBaixo {
+  grid-area: baixo;
+  justify-self: center;
+  transform: rotate(180deg);
+}
+#btnDir {
+  grid-area: dir;
+  justify-self: start;
+  transform: rotate(90deg);
 }
