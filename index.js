@@ -109,6 +109,7 @@ const eJogador = {
   qtdInsignias: 0,
   posicaoRetorno: [3, 6],
 };
+let movimentoPermitido = true;
 
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
@@ -151,22 +152,23 @@ const btnDir = document.querySelector("#btnDir");
 
 btnCima.addEventListener("click", btnCimaClickListener);
 function btnCimaClickListener() {
-  moveJogador("c");
+  if (movimentoPermitido) moveJogador("c");
 }
 btnEsq.addEventListener("click", btnEsqClickListener);
 function btnEsqClickListener() {
-  moveJogador("e");
+  if (movimentoPermitido) moveJogador("e");
 }
 btnBaixo.addEventListener("click", btnBaixoClickListener);
 function btnBaixoClickListener() {
-  moveJogador("b");
+  if (movimentoPermitido) moveJogador("b");
 }
 btnDir.addEventListener("click", btnDirClickListener);
 function btnDirClickListener() {
-  moveJogador("d");
+  if (movimentoPermitido) moveJogador("d");
 }
 
 function moveJogador(direcao) {
+  movimentoPermitido = false;
   const posicao = eJogador.posicao;
   let indice = -1;
   let continua = true;
@@ -182,7 +184,7 @@ function moveJogadorAux(posicao, indice, continua, direcao) {
     setTimeout(() => {
       moveJogadorAux(posicao, indice, continua, direcao);
     }, 200);
-  }
+  } else movimentoPermitido = true;
 }
 
 function atualizaPosicao(direcao, posicao) {
