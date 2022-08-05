@@ -41,7 +41,7 @@ const eMapa = [
   { posicao: [3, 3], tipo: "p" },
   { posicao: [3, 4], tipo: "p" },
   { posicao: [3, 5], tipo: "p" },
-  { posicao: [3, 6], tipo: "p" },
+  { posicao: [3, 6], tipo: "c", visitado: true },
   { posicao: [3, 7], tipo: "p" },
   { posicao: [3, 8], tipo: "p" },
   { posicao: [3, 9], tipo: "p" },
@@ -107,7 +107,7 @@ const eJogador = {
   algVistos: [],
   qtdAlgAcordados: 0,
   qtdInsignias: 0,
-  posicaoAnt: [3, 6],
+  posicaoRetorno: [3, 6],
 };
 
 // Captura elementos do DOM
@@ -168,50 +168,59 @@ function btnDirClickListener() {
 
 function moveJogador(direcao) {
   const posicao = eJogador.posicao;
+  let indice = -1;
+  let continua = true;
 
-  atualizaPosicao(direcao, posicao);
-  posicionaJogador();
-  verificaAcaoLocal();
+  do {
+    indice = atualizaPosicao(direcao, posicao);
+    posicionaJogador();
+    continua = executaAcaoLocal(indice, posicao);
+  } while (continua);
+  console.log(eJogador);
 }
 
 function atualizaPosicao(direcao, posicao) {
+  let indice = -1;
   switch (direcao) {
     case "c":
-      if (
-        posicao[0] > 0 &&
-        verificaExistenciaCelula(posicao[0] - 1, posicao[1])
-      )
-        posicao[0]--;
+      indice = procuraIndiceCelula(posicao[0] - 1, posicao[1]);
+      if (posicao[0] > 0 && indice !== -1) posicao[0]--;
       break;
     case "e":
-      if (
-        posicao[1] > 0 &&
-        verificaExistenciaCelula(posicao[0], posicao[1] - 1)
-      )
-        posicao[1]--;
+      indice = procuraIndiceCelula(posicao[0], posicao[1] - 1);
+      if (posicao[1] > 0 && indice !== -1) posicao[1]--;
       break;
     case "b":
-      if (
-        posicao[0] < mapaL - 1 &&
-        verificaExistenciaCelula(posicao[0] + 1, posicao[1])
-      )
-        posicao[0]++;
+      indice = procuraIndiceCelula(posicao[0] + 1, posicao[1]);
+      if (posicao[0] < mapaL - 1 && indice !== -1) posicao[0]++;
       break;
     case "d":
-      if (
-        posicao[1] < mapaC - 1 &&
-        verificaExistenciaCelula(posicao[0], posicao[1] + 1)
-      )
-        posicao[1]++;
+      indice = procuraIndiceCelula(posicao[0], posicao[1] + 1);
+      if (posicao[1] < mapaC - 1 && indice !== -1) posicao[1]++;
       break;
+  }
+  return indice;
+}
+
+function executaAcaoLocal(indice, posicao) {
+  if (indice === -1) return false;
+  else {
+    const celula = eMapa[indice];
+    const tipo = celula.tipo;
+    switch (tipo) {
+      case "p":
+        return true;
+      case "c":
+        eJogador.posicaoRetorno = [...posicao];
+        return false;
+      case "g":
+        return false;
+    }
   }
 }
 
-function verificaAcaoLocal() {}
-
-function verificaExistenciaCelula(linha, coluna) {
-  const indice = eMapa.findIndex(buscaCelula, [linha, coluna]);
-  return indice !== -1;
+function procuraIndiceCelula(linha, coluna) {
+  return eMapa.findIndex(buscaCelula, [linha, coluna]);
 }
 function buscaCelula(celula) {
   return celula.posicao[0] === this[0] && celula.posicao[1] === this[1];
