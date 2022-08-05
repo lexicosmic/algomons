@@ -121,8 +121,6 @@ for (const elemento of eMapa) {
     case "g":
       celula.textContent = "🏟️";
       break;
-    default:
-      break;
   }
   celula.classList.add("visitavel");
   const posicao = elemento.posicao;
@@ -166,6 +164,37 @@ function btnDirClickListener() {
 }
 
 function moveJogador(direcao) {
-  console.log(eJogador.posicao);
-  console.log(eJogador.posicao[0] - 1 + ", " + eJogador.posicao[1]);
+  const posicao = eJogador.posicao;
+  let variacaoL = 0;
+  let variacaoC = 0;
+  console.log(verificaExistenciaCelula(posicao[0] - 1, posicao[1]));
+  switch (direcao) {
+    case "c":
+      if (
+        posicao[0] > 0 &&
+        verificaExistenciaCelula(posicao[0] - 1, posicao[1])
+      )
+        variacaoL--;
+      break;
+    case "e":
+      variacaoC--;
+      break;
+    case "b":
+      variacaoL++;
+      break;
+    case "d":
+      variacaoC++;
+      break;
+  }
+
+  //   console.log(eJogador.posicao);
+  //   console.log(eJogador.posicao[0] - 1 + ", " + eJogador.posicao[1]);
+}
+
+function verificaExistenciaCelula(linha, coluna) {
+  const indice = eMapa.findIndex(buscaCelula, [linha, coluna]);
+  return indice !== -1;
+}
+function buscaCelula(celula) {
+  return celula.posicao[0] === this[0] && celula.posicao[1] === this[1];
 }
