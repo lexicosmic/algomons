@@ -248,15 +248,29 @@ function acaoCidade(indice, celula) {
     celula.visitado = true;
     algMochila.push(indAlgomon);
     eJogador.algVistos++;
-    atualizaTabAlgodex(indAlgomon, algMochila.length);
+    atualizaTabAlgodex(indAlgomon);
   }
 }
 
-function atualizaTabAlgodex(indAlgomon, qtdRegistros) {
-  if (qtdRegistros > 3) {
-    tabAlgodex.lastElementChild.remove();
-  }
+function atualizaTabAlgodex(indAlgomon) {
   insereAlgomon(indAlgomon);
+  removeAlgomon(tabAlgodex.lastElementChild);
+}
+
+function removeAlgomon(registro) {
+  const filhos = registro.children;
+  const numFilhos = filhos.length;
+  for (let indexF = 0; indexF < numFilhos; indexF++) {
+    const filho = filhos[0];
+    const netos = filho.children;
+    const numNetos = netos.length;
+    for (let indexN = 0; indexN < numNetos; indexN++) {
+      const neto = netos[0];
+      neto.remove();
+    }
+    filho.remove();
+  }
+  registro.remove();
 }
 
 function insereAlgomon(indAlgomon) {
