@@ -243,12 +243,20 @@ function acaoCidade(indice, celula) {
   if (!visitado) {
     const elemento = document.querySelector(`#n${indice}`);
     const indAlgomon = celula.algomon;
+    const algMochila = eJogador.algMochila;
     elemento.textContent = "🌆";
     celula.visitado = true;
-    eJogador.algMochila.push(indAlgomon);
+    algMochila.push(indAlgomon);
     eJogador.algVistos++;
-    insereAlgomon(indAlgomon);
+    atualizaTabAlgodex(indAlgomon, algMochila.length);
   }
+}
+
+function atualizaTabAlgodex(indAlgomon, qtdRegistros) {
+  if (qtdRegistros > 3) {
+    tabAlgodex.lastElementChild.remove();
+  }
+  insereAlgomon(indAlgomon);
 }
 
 function insereAlgomon(indAlgomon) {
@@ -277,5 +285,5 @@ function insereAlgomon(indAlgomon) {
   registro.appendChild(ataque);
   registro.appendChild(vida);
   registro.appendChild(tipo);
-  tabAlgodex.appendChild(registro);
+  tabAlgodex.insertBefore(registro, tabAlgodex.firstElementChild);
 }
