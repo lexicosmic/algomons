@@ -2,24 +2,34 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
 article {
   display: flex;
   flex-direction: column;
   row-gap: 0.5em;
 }
 
+.mapa-container {
+  display: flex;
+  justify-content: center;
+}
 .mapa {
   display: grid;
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(23, 1fr);
   aspect-ratio: 23/8;
   background-color: greenyellow;
+  width: 90%;
 }
 .mapa .visitavel {
   background-color: blanchedalmond;
 }
 .mapa span {
-  font-size: 3vw;
+  font-size: 2.6vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,55 +66,66 @@ article {
   transform: rotate(90deg);
 }
 
-.linhaStatus {
+.linha-status {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   background-color: hsl(0, 100%, 82%);
   justify-items: center;
 }
-.linhaStatus span {
+.linha-status span {
   font-size: 0.75em;
   font-weight: bold;
   float: left;
-}
-@media (min-width: 576px) {
-  .linhaStatus span {
-    font-size: 1em;
-  }
 }
 
 .algodex {
   display: flex;
 }
 
-.algodexTable {
+.algodex-table {
   width: 100%;
   background-color: white;
   border-collapse: collapse;
 }
-.algodexTableBody > tr {
+.algodex-table-body > tr {
   font-weight: bold;
 }
-.algodexTableBody > tr > td > * {
+.algodex-table-body > tr > td > * {
   font-weight: normal;
 }
-.algodexTableBody > tr:nth-child(odd) {
+.algodex-table-body > tr:nth-child(odd) {
   background-color: blanchedalmond;
 }
-.algodexTableBody > tr:nth-child(even) {
+.algodex-table-body > tr:nth-child(even) {
   background-color: oldlace;
 }
 
-.botoesLista {
+.botoes-lista {
   display: flex;
   flex-direction: column;
 }
-.botoesLista > button {
+.botoes-lista > button {
   display: flex;
   flex-grow: 1;
   align-items: baseline;
   padding-top: 5px;
 }
-.botoesLista > button:nth-child(2) {
+.botoes-lista > button:nth-child(2) {
   transform: rotate(180deg);
+}
+
+.area-acao {
+  display: flex;
+  min-height: 60px;
+  background-color: snow;
+  border: 1px solid hsl(0, 100%, 82%);
+}
+
+@media (min-width: 576px) {
+  .mapa span {
+    font-size: 2.75vw;
+  }
+  .linha-status span {
+    font-size: 1em;
+  }
 }
