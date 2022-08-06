@@ -104,8 +104,8 @@ const eMapa = [
 const eJogador = {
   posicao: [3, 6],
   algMochila: [],
+  algDesmaiados: [],
   algVistos: 0,
-  qtdAlgAcordados: 0,
   qtdInsignias: 0,
   posicaoRetorno: [3, 6],
 };
@@ -255,7 +255,6 @@ function acaoCidade(indice, celula) {
     celula.visitado = true;
     algMochila.push(indAlgomon);
     eJogador.algVistos++;
-    eJogador.qtdAlgAcordados++;
     atualizaLinhaStatus();
     atualizaTabAlgodex(indAlgomon);
   }
@@ -264,7 +263,7 @@ function acaoCidade(indice, celula) {
 // // Linha de status
 function atualizaLinhaStatus() {
   algodexInfo.textContent = eJogador.algVistos;
-  algomonsInfo.textContent = eJogador.qtdAlgAcordados;
+  algomonsInfo.textContent = eJogador.algMochila.length;
   insigniasInfo.textContent = eJogador.qtdInsignias;
 }
 
@@ -281,7 +280,7 @@ function btnDesceClickListener() {
   rolagem("d");
 }
 function rolagem(direcao) {
-  if (eJogador.qtdAlgAcordados < 2) return;
+  if (eJogador.algMochila.length < 2) return;
   if (direcao === "d") {
     const ultimo = eJogador.algMochila.pop();
     eJogador.algMochila.unshift(ultimo);
@@ -302,7 +301,7 @@ function atualizaTabAlgodex() {
   }
   // Cria três registros
   const algMochila = eJogador.algMochila;
-  const qtdAlgAcordados = eJogador.qtdAlgAcordados;
+  const qtdAlgAcordados = eJogador.algMochila.length;
   let registro = 0;
   for (let indexA = 0; indexA < 3; indexA++) {
     if (indexA < qtdAlgAcordados) {
