@@ -104,7 +104,7 @@ const eMapa = [
 const eJogador = {
   posicao: [3, 6],
   algMochila: [],
-  algVistos: [],
+  algVistos: 0,
   qtdAlgAcordados: 0,
   qtdInsignias: 0,
   posicaoRetorno: [3, 6],
@@ -178,9 +178,6 @@ function moveJogador(direcao) {
   let indice = -1;
   let continua = true;
   moveJogadorAux(posicao, indice, continua, direcao);
-
-  console.log(eJogador);
-  console.log(eMapa);
 }
 function moveJogadorAux(posicao, indice, continua, direcao) {
   indice = atualizaPosicao(direcao, posicao);
@@ -246,5 +243,8 @@ function acaoCidade(indice, celula) {
     const elemento = document.querySelector(`#n${indice}`);
     elemento.textContent = "🌆";
     celula.visitado = true;
+    eJogador.algMochila.push(celula.algomon);
+    eJogador.algVistos++;
   }
+
 }
