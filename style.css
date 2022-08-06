@@ -8,67 +8,67 @@ article {
   row-gap: 0.5em;
 }
 
-#mapa {
+.mapa {
   display: grid;
   grid-template-rows: repeat(8, 1fr);
   grid-template-columns: repeat(23, 1fr);
   aspect-ratio: 23/8;
   background-color: greenyellow;
 }
-#mapa .visitavel {
+.mapa .visitavel {
   background-color: blanchedalmond;
 }
-#mapa span {
+.mapa span {
   font-size: 3vw;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#botoes {
+.botoes {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   grid-template-rows: repeat(2, 1fr);
   grid-template-areas: ". cima ." "esq baixo dir";
   gap: 0.25em;
 }
-#botoes > button {
+.botoes > button {
   aspect-ratio: 1;
   width: fit-content;
 }
-#btnCima {
+.botoes > button:nth-child(1) {
   grid-area: cima;
   justify-self: center;
 }
-#btnEsq {
+.botoes > button:nth-child(2) {
   grid-area: esq;
   justify-self: end;
   transform: rotate(-90deg);
 }
-#btnBaixo {
+.botoes > button:nth-child(3) {
   grid-area: baixo;
   justify-self: center;
   transform: rotate(180deg);
 }
-#btnDir {
+.botoes > button:nth-child(4) {
   grid-area: dir;
   justify-self: start;
   transform: rotate(90deg);
 }
 
-#linhaStatus {
+.linhaStatus {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   background-color: hsl(0, 100%, 82%);
   justify-items: center;
 }
-#linhaStatus span {
+.linhaStatus span {
   font-size: 0.75em;
   font-weight: bold;
   float: left;
 }
 @media (min-width: 576px) {
-  #linhaStatus span {
+  .linhaStatus span {
     font-size: 1em;
   }
 }
@@ -78,12 +78,12 @@ article {
   background-color: white;
   border-collapse: collapse;
 }
-#algodexTableBody > tr :first-child {
+.algodexTableBody > tr :first-child {
   font-weight: bold;
 }
-#algodexTableBody > tr:nth-child(odd) {
+.algodexTableBody > tr:nth-child(odd) {
   background-color: blanchedalmond;
 }
-#algodexTableBody > tr:nth-child(even) {
+.algodexTableBody > tr:nth-child(even) {
   background-color: oldlace;
 }
