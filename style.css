@@ -2,11 +2,10 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 
-span {
-  font-size: 3vw;
+article {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  row-gap: 0.5em;
 }
 
 #mapa {
@@ -16,9 +15,14 @@ span {
   aspect-ratio: 23/8;
   background-color: greenyellow;
 }
-
 #mapa .visitavel {
   background-color: blanchedalmond;
+}
+#mapa span {
+  font-size: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #botoes {
@@ -50,4 +54,36 @@ span {
   grid-area: dir;
   justify-self: start;
   transform: rotate(90deg);
+}
+
+#linhaStatus {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: hsl(0, 100%, 82%);
+  justify-items: center;
+}
+#linhaStatus span {
+  font-size: 0.75em;
+  font-weight: bold;
+  float: left;
+}
+@media (min-width: 576px) {
+  #linhaStatus span {
+    font-size: 1em;
+  }
+}
+
+.algodexTable {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+}
+#algodexTableBody > tr :first-child {
+  font-weight: bold;
+}
+#algodexTableBody > tr:nth-child(odd) {
+  background-color: blanchedalmond;
+}
+#algodexTableBody > tr:nth-child(even) {
+  background-color: oldlace;
 }
