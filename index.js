@@ -113,6 +113,7 @@ let movimentoPermitido = true;
 
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
+const tabAlgodex = document.querySelector("#algodexTableBody");
 
 // Inicia DOM
 let ind = 0;
@@ -241,10 +242,40 @@ function acaoCidade(indice, celula) {
   const visitado = celula.visitado;
   if (!visitado) {
     const elemento = document.querySelector(`#n${indice}`);
+    const indAlgomon = celula.algomon;
     elemento.textContent = "🌆";
     celula.visitado = true;
-    eJogador.algMochila.push(celula.algomon);
+    eJogador.algMochila.push(indAlgomon);
     eJogador.algVistos++;
+    insereAlgomon(indAlgomon);
   }
+}
 
+function insereAlgomon(indAlgomon) {
+  const algomon = eAlgomons[indAlgomon];
+  const registro = document.createElement("tr");
+  const nome = document.createElement("td");
+  const ataque = document.createElement("td");
+  const vida = document.createElement("td");
+  const tipo = document.createElement("td");
+  const ataqueInfo = document.createElement("span");
+  const vidaInfo = document.createElement("span");
+  const tipoInfo = document.createElement("span");
+
+  nome.textContent = algomon.nome;
+  ataque.textContent = "Atk: ";
+  vida.textContent = "HP: ";
+  tipo.textContent = "Type: ";
+  ataqueInfo.textContent = algomon.ataque;
+  vidaInfo.textContent = algomon.vida;
+  tipoInfo.textContent = algomon.tipo.toUpperCase();
+
+  ataque.appendChild(ataqueInfo);
+  vida.appendChild(vidaInfo);
+  tipo.appendChild(tipoInfo);
+  registro.appendChild(nome);
+  registro.appendChild(ataque);
+  registro.appendChild(vida);
+  registro.appendChild(tipo);
+  tabAlgodex.appendChild(registro);
 }

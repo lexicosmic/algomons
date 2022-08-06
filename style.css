@@ -78,8 +78,11 @@ article {
   background-color: white;
   border-collapse: collapse;
 }
-.algodexTableBody > tr :first-child {
+.algodexTableBody > tr {
   font-weight: bold;
+}
+.algodexTableBody > tr > td > * {
+  font-weight: normal;
 }
 .algodexTableBody > tr:nth-child(odd) {
   background-color: blanchedalmond;
