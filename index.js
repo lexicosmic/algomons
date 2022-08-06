@@ -14,13 +14,20 @@ const eAlgomons = [
   { nome: "Ifssauro", ataque: 5, vida: 20, tipo: "c" }, // R
   { nome: "Whiledle", ataque: 3, vida: 40, tipo: "r" }, // X
   { nome: "Vectoray", ataque: 4, vida: 30, tipo: "d" }, // Y
-  { nome: "Ceeplusplus", ataque: 8, vida: 50, tipo: "l" }, // Z
+  { nome: "Ceeplusplus", ataque: 8, vida: 30, tipo: "l" }, // Z
 ];
 
 const mapaC = 23;
 const mapaL = 8;
 const eMapa = [
-  { posicao: [0, 0], tipo: "g", ginasio: "z", venceu: false, algomon: 14 },
+  {
+    posicao: [0, 0],
+    tipo: "g",
+    ginasio: "z",
+    venceu: false,
+    visitado: false,
+    algomon: 14,
+  },
   { posicao: [0, 6], tipo: "c", visitado: false, algomon: 0 },
   { posicao: [1, 0], tipo: "p" },
   { posicao: [1, 6], tipo: "p" },
@@ -57,7 +64,14 @@ const eMapa = [
   { posicao: [3, 19], tipo: "p" },
   { posicao: [3, 20], tipo: "p" },
   { posicao: [3, 21], tipo: "p" },
-  { posicao: [3, 22], tipo: "g", ginasio: "x", venceu: false, algomon: 12 },
+  {
+    posicao: [3, 22],
+    tipo: "g",
+    ginasio: "x",
+    venceu: false,
+    visitado: false,
+    algomon: 12,
+  },
   { posicao: [4, 6], tipo: "p" },
   { posicao: [4, 22], tipo: "p" },
   { posicao: [5, 6], tipo: "p" },
@@ -76,7 +90,14 @@ const eMapa = [
   { posicao: [5, 22], tipo: "c", visitado: false, algomon: 7 },
   { posicao: [6, 6], tipo: "p" },
   { posicao: [6, 10], tipo: "p" },
-  { posicao: [7, 0], tipo: "g", ginasio: "y", venceu: false, algomon: 13 },
+  {
+    posicao: [7, 0],
+    tipo: "g",
+    ginasio: "y",
+    venceu: false,
+    visitado: false,
+    algomon: 13,
+  },
   { posicao: [7, 1], tipo: "p" },
   { posicao: [7, 2], tipo: "p" },
   { posicao: [7, 3], tipo: "p" },
@@ -98,7 +119,14 @@ const eMapa = [
   { posicao: [7, 19], tipo: "p" },
   { posicao: [7, 20], tipo: "p" },
   { posicao: [7, 21], tipo: "p" },
-  { posicao: [7, 22], tipo: "g", ginasio: "r", venceu: false, algomon: 11 },
+  {
+    posicao: [7, 22],
+    tipo: "g",
+    ginasio: "r",
+    venceu: false,
+    visitado: false,
+    algomon: 11,
+  },
 ];
 
 const eJogador = {
@@ -259,33 +287,46 @@ function acaoCidade(indice, celula) {
     algMochila.push(indAlgomon);
     eJogador.algVistos++;
     atualizaLinhaStatus();
-    atualizaTabAlgodex(indAlgomon);
+    atualizaTabAlgodex();
   }
 }
 
 function acaoGinasio(indice, celula) {
-  const venceu = celula.venceu;
-  if (!venceu) {
+  if (!celula.visitado) {
+    eJogador.algVistos++;
+    celula.visitado = true;
+  }
+  if (!celula.venceu) {
     const nomeGinasio = celula.ginasio;
     const indAlgomon = celula.algomon;
     if (nomeGinasio === "z" && eJogador.qtdInsignias < 3) {
       // Ainda não pode batalhar contra o ginásio Z
       imprime(
         "Você precisa de três insignias para lutar contra esse treinador!",
+        true,
         true
       );
       eJogador.posicao = [...eJogador.posicaoRetorno];
       posicionaJogador();
     } else {
-      iniciaBatalha(indAlgomon);
+      const vitoria = iniciaBatalha(indAlgomon);
+      if (vitoria) {
+        eJogador.qtdInsignias++;
+        celula.venceu = true;
+      } else {
+        eJogador.posicao = [...eJogador.posicaoRetorno];
+        posicionaJogador();
+      }
     }
   }
+  atualizaLinhaStatus();
+  atualizaTabAlgodex();
 }
 
 function iniciaBatalha(indAlgomon) {
   const algOponente = eAlgomons[indAlgomon];
   algOponente.vida += 20;
-  const resultado = batalha(algOponente);
+  return batalha(algOponente);
 }
 
 function batalha(algOponente) {
@@ -304,7 +345,7 @@ function batalha(algOponente) {
     vidaAlgJogComeco.push(algomon.vida);
   }
 
-  imprime("======== BATALHA COM LIDER DE GINASIO ========", true);
+  imprime("======== BATALHA COM LIDER DE GINASIO ========", true, true);
   imprime("Seus algomons:", true);
   for (const algomon of algBatalha) {
     imprime(
@@ -333,14 +374,33 @@ function batalha(algOponente) {
       atacar(algBatalha[0], algOponente, vidaAlgJogComeco[0]);
       if (algOponente.vida <= 0) vitoria = true;
     } else {
-      vitoria = true;
-    }
+      imprime("< Opn ");
+      atacar(algOponente, algBatalha[0], vidaAlgOpoComeco);
 
-    console.log(algBatalha);
-    console.log(vidaAlgJogComeco);
-    console.log(algOponente);
+      if (algBatalha[0].vida === 0) {
+        imprime(`Oh, não! Seu ${algBatalha[0].nome} foi derrotado!`, true);
+        const algDerrotado = algMochila.shift(0, 1);
+        algBatalha.shift(0, 1);
+        vidaAlgJogComeco.shift(0, 1);
+        eJogador.algDesmaiados.push(algDerrotado);
+        qtdAlgDerrotados++;
+        atualizaLinhaStatus();
+        atualizaTabAlgodex();
+      }
+    }
     turnoJog = !turnoJog;
   }
+
+  if (vitoria) {
+    imprime("Vitória!", true);
+  } else {
+    imprime(
+      "Que pena, todos os seus algomons em batalha foram derrotados.",
+      true
+    );
+  }
+
+  return vitoria;
 }
 
 function atacar(algAtacante, algAlvo, vidaAlgAtacCom) {
@@ -375,7 +435,10 @@ function atacar(algAtacante, algAlvo, vidaAlgAtacCom) {
   }
   imprime(`-${ataque}HP`, true);
 
-  algAlvo.vida -= ataque;
+  let vida = algAlvo.vida;
+  vida -= ataque;
+  if (vida < 0) vida = 0;
+  algAlvo.vida = vida;
 }
 
 // // Linha de status
@@ -491,8 +554,11 @@ function criaRegistroVazio() {
   return registro;
 }
 
-function imprime(mensagem, quebraLinha = false) {
+function imprime(mensagem, quebraLinha = false, limparArea = false) {
   let bloco = 0;
+  if (limparArea) {
+    limpaAreaAcao();
+  }
   if (ultImpQuebraLinha) {
     bloco = document.createElement("p");
     areaAcao.appendChild(bloco);
@@ -509,4 +575,5 @@ function limpaAreaAcao() {
   for (let index = 0; index < numFilhos; index++) {
     filhos[0].remove();
   }
+  ultImpQuebraLinha = true;
 }
