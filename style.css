@@ -73,6 +73,10 @@ article {
   }
 }
 
+.algodex {
+  display: flex;
+}
+
 .algodexTable {
   width: 100%;
   background-color: white;
@@ -89,4 +93,18 @@ article {
 }
 .algodexTableBody > tr:nth-child(even) {
   background-color: oldlace;
+}
+
+.botoesLista {
+  display: flex;
+  flex-direction: column;
+}
+.botoesLista > button {
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+  padding-top: 5px;
+}
+.botoesLista > button:nth-child(2) {
+  transform: rotate(180deg);
 }

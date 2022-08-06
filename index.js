@@ -261,14 +261,27 @@ function acaoCidade(indice, celula) {
   }
 }
 
-// Linha de status
+// // Linha de status
 function atualizaLinhaStatus() {
   algodexInfo.textContent = eJogador.algVistos;
   algomonsInfo.textContent = eJogador.qtdAlgAcordados;
   insigniasInfo.textContent = eJogador.qtdInsignias;
 }
 
-// Tabela de algomons
+// // Tabela de algomons
+// Botões de rolagem
+const btnSobe = document.querySelector("#btnSobe");
+const btnDesce = document.querySelector("#btnDesce");
+btnSobe.addEventListener("click", btnSobeClickListener);
+btnDesce.addEventListener("click", btnDesceClickListener);
+function btnSobeClickListener() {
+  console.log("s");
+}
+function btnDesceClickListener() {
+  console.log("d");
+}
+
+// Mudanças na tabela
 function atualizaTabAlgodex(indAlgomon) {
   removeAlgomon(tabAlgodex.lastElementChild);
   insereAlgomon(indAlgomon);
