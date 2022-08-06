@@ -110,6 +110,7 @@ const eJogador = {
   posicaoRetorno: [3, 6],
 };
 let movimentoPermitido = true;
+let ultImpQuebraLinha = true;
 
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
@@ -270,7 +271,8 @@ function acaoGinasio(indice, celula) {
     if (nomeGinasio === "z" && eJogador.qtdInsignias < 3) {
       // Ainda não pode batalhar contra o ginásio Z
       imprime(
-        "Você precisa de três insignias para lutar contra esse treinador!"
+        "Você precisa de três insignias para lutar contra esse treinador!",
+        true
       );
       eJogador.posicao = [...eJogador.posicaoRetorno];
       posicionaJogador();
@@ -284,8 +286,6 @@ function iniciaBatalha(indAlgomon) {
   const algOponente = eAlgomons[indAlgomon];
   algOponente.vida += 20;
   const resultado = batalha(algOponente);
-
-  console.log(algOponente);
 }
 
 function batalha(algOponente) {
@@ -301,37 +301,81 @@ function batalha(algOponente) {
   for (let index = 0; index < qtdAlgBatalha; index++) {
     const algomon = eAlgomons[algMochila[index]];
     algBatalha.push(algomon);
-    vidaAlgJogComeco.push(algMochila[index].vida);
+    vidaAlgJogComeco.push(algomon.vida);
   }
 
-  imprime("======== BATALHA COM LIDER DE GINASIO ========");
-  imprime("Seus algomons:");
+  imprime("======== BATALHA COM LIDER DE GINASIO ========", true);
+  imprime("Seus algomons:", true);
   for (const algomon of algBatalha) {
     imprime(
       `${algomon.nome} 
       Atk:${algomon.ataque} 
       HP:${algomon.vida} 
-      Type:${algomon.tipo.toUpperCase()}`
+      Type:${algomon.tipo.toUpperCase()}`,
+      true
     );
   }
-  imprime(" ", "Algomon do oponente:");
+  imprime(" ", true);
+  imprime("Algomon do oponente:", true);
   imprime(
     `${algOponente.nome} 
     Atk:${algOponente.ataque} 
     HP:${algOponente.vida} 
-    Type:${algOponente.tipo.toUpperCase()}`
+    Type:${algOponente.tipo.toUpperCase()}`,
+    true
   );
+  imprime(" ", true);
 
   // Ataques
   while (qtdAlgDerrotados < qtdAlgBatalha && !vitoria) {
     if (turnoJog) {
-      console.log("Turno do jogador");
+      imprime("> Seu ");
+      atacar(algBatalha[0], algOponente, vidaAlgJogComeco[0]);
+      if (algOponente.vida <= 0) vitoria = true;
     } else {
-      console.log("Turno do oponente");
       vitoria = true;
     }
+
+    console.log(algBatalha);
+    console.log(vidaAlgJogComeco);
+    console.log(algOponente);
     turnoJog = !turnoJog;
   }
+}
+
+function atacar(algAtacante, algAlvo, vidaAlgAtacCom) {
+  let ataque = algAtacante.ataque;
+  let superEfetivo = false;
+  switch (algAtacante.tipo) {
+    case "c":
+      if (algAlvo.tipo === "r") {
+        ataque *= 2;
+        superEfetivo = true;
+      }
+      break;
+    case "r":
+      if (algAlvo.tipo === "d") {
+        ataque *= 2;
+        superEfetivo = true;
+      }
+      break;
+    case "d":
+      if (algAlvo.tipo === "c") {
+        ataque *= 2;
+        superEfetivo = true;
+      }
+      break;
+  }
+
+  imprime(
+    `${algAtacante.nome} [${algAtacante.vida}/${vidaAlgAtacCom}] ataca! `
+  );
+  if (superEfetivo) {
+    imprime("Superefetivo! ");
+  }
+  imprime(`-${ataque}HP`, true);
+
+  algAlvo.vida -= ataque;
 }
 
 // // Linha de status
@@ -447,12 +491,16 @@ function criaRegistroVazio() {
   return registro;
 }
 
-function imprime() {
-  for (let index = 0; index < arguments.length; index++) {
-    const bloco = document.createElement("p");
-    bloco.textContent = arguments[index];
+function imprime(mensagem, quebraLinha = false) {
+  let bloco = 0;
+  if (ultImpQuebraLinha) {
+    bloco = document.createElement("p");
     areaAcao.appendChild(bloco);
+  } else {
+    bloco = areaAcao.lastElementChild;
   }
+  bloco.textContent += mensagem;
+  ultImpQuebraLinha = quebraLinha;
 }
 
 function limpaAreaAcao() {
