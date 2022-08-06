@@ -117,6 +117,7 @@ const algodexInfo = document.querySelector("#algodexInfo");
 const algomonsInfo = document.querySelector("#algomonsInfo");
 const insigniasInfo = document.querySelector("#insigniasInfo");
 const tabAlgodex = document.querySelector("#algodexTableBody");
+const areaAcao = document.querySelector("#areaAcao");
 
 // // Inicia DOM
 // Constrói mapa
@@ -268,6 +269,9 @@ function acaoGinasio(indice, celula) {
     const indAlgomon = celula.algomon;
     if (nomeGinasio === "z" && eJogador.qtdInsignias < 3) {
       // Ainda não pode batalhar contra o ginásio Z
+      imprime(
+        "Você precisa de três insignias para lutar contra esse treinador!"
+      );
       eJogador.posicao = [...eJogador.posicaoRetorno];
       posicionaJogador();
     } else {
@@ -405,4 +409,21 @@ function criaRegistroVazio() {
   registro.appendChild(celula3);
   registro.appendChild(celula4);
   return registro;
+}
+
+function imprime() {
+  limpaAreaAcao();
+  for (let index = 0; index < arguments.length; index++) {
+    const bloco = document.createElement("p");
+    bloco.textContent = arguments[index];
+    areaAcao.appendChild(bloco);
+  }
+}
+
+function limpaAreaAcao() {
+  const filhos = areaAcao.children;
+  const numFilhos = filhos.length;
+  for (let index = 0; index < numFilhos; index++) {
+    filhos[0].remove();
+  }
 }
