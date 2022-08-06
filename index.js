@@ -275,16 +275,43 @@ const btnDesce = document.querySelector("#btnDesce");
 btnSobe.addEventListener("click", btnSobeClickListener);
 btnDesce.addEventListener("click", btnDesceClickListener);
 function btnSobeClickListener() {
-  console.log("s");
+  rolagem("s");
 }
 function btnDesceClickListener() {
-  console.log("d");
+  rolagem("d");
+}
+function rolagem(direcao) {
+  if (eJogador.qtdAlgAcordados < 2) return;
+  if (direcao === "d") {
+    const ultimo = eJogador.algMochila.pop();
+    eJogador.algMochila.unshift(ultimo);
+  } else {
+    const primeiro = eJogador.algMochila.shift(0, 1);
+    eJogador.algMochila.push(primeiro);
+  }
+  atualizaTabAlgodex();
 }
 
 // Mudanças na tabela
-function atualizaTabAlgodex(indAlgomon) {
-  removeAlgomon(tabAlgodex.lastElementChild);
-  insereAlgomon(indAlgomon);
+function atualizaTabAlgodex() {
+  const registros = tabAlgodex.children;
+  const numRegistros = registros.length;
+  // Limpa tabela
+  for (let indexR = 0; indexR < numRegistros; indexR++) {
+    removeAlgomon(registros[0]);
+  }
+  // Cria três registros
+  const algMochila = eJogador.algMochila;
+  const qtdAlgAcordados = eJogador.qtdAlgAcordados;
+  let registro = 0;
+  for (let indexA = 0; indexA < 3; indexA++) {
+    if (indexA < qtdAlgAcordados) {
+      registro = criaRegistroAlgomon(algMochila[indexA]);
+    } else {
+      registro = criaRegistroVazio();
+    }
+    tabAlgodex.appendChild(registro);
+  }
 }
 function removeAlgomon(registro) {
   const filhos = registro.children;
@@ -301,7 +328,7 @@ function removeAlgomon(registro) {
   }
   registro.remove();
 }
-function insereAlgomon(indAlgomon) {
+function criaRegistroAlgomon(indAlgomon) {
   const algomon = eAlgomons[indAlgomon];
   const registro = document.createElement("tr");
   const nome = document.createElement("td");
@@ -327,5 +354,22 @@ function insereAlgomon(indAlgomon) {
   registro.appendChild(ataque);
   registro.appendChild(vida);
   registro.appendChild(tipo);
-  tabAlgodex.insertBefore(registro, tabAlgodex.firstElementChild);
+  return registro;
+}
+function criaRegistroVazio() {
+  const registro = document.createElement("tr");
+  const celula1 = document.createElement("td");
+  const celula2 = document.createElement("td");
+  const celula3 = document.createElement("td");
+  const celula4 = document.createElement("td");
+  const nbsp = document.createTextNode("\u00A0");
+  celula1.append(nbsp.cloneNode());
+  celula2.append(nbsp.cloneNode());
+  celula3.append(nbsp.cloneNode());
+  celula4.append(nbsp);
+  registro.appendChild(celula1);
+  registro.appendChild(celula2);
+  registro.appendChild(celula3);
+  registro.appendChild(celula4);
+  return registro;
 }
