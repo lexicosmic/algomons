@@ -113,9 +113,13 @@ let movimentoPermitido = true;
 
 // Captura elementos do DOM
 const mapa = document.querySelector("#mapa");
+const algodexInfo = document.querySelector("#algodexInfo");
+const algomonsInfo = document.querySelector("#algomonsInfo");
+const insigniasInfo = document.querySelector("#insigniasInfo");
 const tabAlgodex = document.querySelector("#algodexTableBody");
 
-// Inicia DOM
+// // Inicia DOM
+// Constrói mapa
 let ind = 0;
 for (const elemento of eMapa) {
   const celula = document.createElement("span");
@@ -150,12 +154,12 @@ function posicionaJogador() {
   mapa.appendChild(jogador);
 }
 
+// // Movimento
 // Interpreta cliques de movimento
 const btnCima = document.querySelector("#btnCima");
 const btnEsq = document.querySelector("#btnEsq");
 const btnBaixo = document.querySelector("#btnBaixo");
 const btnDir = document.querySelector("#btnDir");
-
 btnCima.addEventListener("click", btnCimaClickListener);
 function btnCimaClickListener() {
   if (movimentoPermitido) moveJogador("c");
@@ -173,6 +177,7 @@ function btnDirClickListener() {
   if (movimentoPermitido) moveJogador("d");
 }
 
+// Loop de movimento
 function moveJogador(direcao) {
   movimentoPermitido = false;
   const posicao = eJogador.posicao;
@@ -191,6 +196,7 @@ function moveJogadorAux(posicao, indice, continua, direcao) {
   } else movimentoPermitido = true;
 }
 
+// Atualiza posição do jogador no estado
 function atualizaPosicao(direcao, posicao) {
   let indice = -1;
   switch (direcao) {
@@ -220,6 +226,7 @@ function buscaCelula(celula) {
   return celula.posicao[0] === this[0] && celula.posicao[1] === this[1];
 }
 
+// // Verificação de ação no local
 function executaAcaoLocal(indice, posicao) {
   if (indice === -1) return false;
   else {
@@ -248,15 +255,24 @@ function acaoCidade(indice, celula) {
     celula.visitado = true;
     algMochila.push(indAlgomon);
     eJogador.algVistos++;
+    eJogador.qtdAlgAcordados++;
+    atualizaLinhaStatus();
     atualizaTabAlgodex(indAlgomon);
   }
 }
 
-function atualizaTabAlgodex(indAlgomon) {
-  insereAlgomon(indAlgomon);
-  removeAlgomon(tabAlgodex.lastElementChild);
+// Linha de status
+function atualizaLinhaStatus() {
+  algodexInfo.textContent = eJogador.algVistos;
+  algomonsInfo.textContent = eJogador.qtdAlgAcordados;
+  insigniasInfo.textContent = eJogador.qtdInsignias;
 }
 
+// Tabela de algomons
+function atualizaTabAlgodex(indAlgomon) {
+  removeAlgomon(tabAlgodex.lastElementChild);
+  insereAlgomon(indAlgomon);
+}
 function removeAlgomon(registro) {
   const filhos = registro.children;
   const numFilhos = filhos.length;
@@ -272,7 +288,6 @@ function removeAlgomon(registro) {
   }
   registro.remove();
 }
-
 function insereAlgomon(indAlgomon) {
   const algomon = eAlgomons[indAlgomon];
   const registro = document.createElement("tr");
