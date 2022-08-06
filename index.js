@@ -318,6 +318,8 @@ function acaoGinasio(indice, celula) {
         posicionaJogador();
       }
     }
+    const elemento = document.querySelector(`#n${indice}`);
+    elemento.classList.add("venceu");
   }
   atualizaLinhaStatus();
   atualizaTabAlgodex();

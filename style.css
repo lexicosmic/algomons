@@ -28,11 +28,14 @@ article {
 .mapa .visitavel {
   background-color: blanchedalmond;
 }
-.mapa span {
+.mapa > span {
   font-size: 2.6vw;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.mapa > span.venceu {
+  box-shadow: inset 0 0 0 1000px hsla(158, 100%, 75%, 0.25);
 }
 
 .botoes {
