@@ -20,7 +20,7 @@ const eAlgomons = [
 const mapaC = 23;
 const mapaL = 8;
 const eMapa = [
-  { posicao: [0, 0], tipo: "g", ginasio: "Z", venceu: false, algomon: 14 },
+  { posicao: [0, 0], tipo: "g", ginasio: "z", venceu: false, algomon: 14 },
   { posicao: [0, 6], tipo: "c", visitado: false, algomon: 0 },
   { posicao: [1, 0], tipo: "p" },
   { posicao: [1, 6], tipo: "p" },
@@ -57,7 +57,7 @@ const eMapa = [
   { posicao: [3, 19], tipo: "p" },
   { posicao: [3, 20], tipo: "p" },
   { posicao: [3, 21], tipo: "p" },
-  { posicao: [3, 22], tipo: "g", ginasio: "X", venceu: false, algomon: 12 },
+  { posicao: [3, 22], tipo: "g", ginasio: "x", venceu: false, algomon: 12 },
   { posicao: [4, 6], tipo: "p" },
   { posicao: [4, 22], tipo: "p" },
   { posicao: [5, 6], tipo: "p" },
@@ -76,7 +76,7 @@ const eMapa = [
   { posicao: [5, 22], tipo: "c", visitado: false, algomon: 7 },
   { posicao: [6, 6], tipo: "p" },
   { posicao: [6, 10], tipo: "p" },
-  { posicao: [7, 0], tipo: "g", ginasio: "Y", venceu: false, algomon: 13 },
+  { posicao: [7, 0], tipo: "g", ginasio: "y", venceu: false, algomon: 13 },
   { posicao: [7, 1], tipo: "p" },
   { posicao: [7, 2], tipo: "p" },
   { posicao: [7, 3], tipo: "p" },
@@ -98,7 +98,7 @@ const eMapa = [
   { posicao: [7, 19], tipo: "p" },
   { posicao: [7, 20], tipo: "p" },
   { posicao: [7, 21], tipo: "p" },
-  { posicao: [7, 22], tipo: "g", ginasio: "R", venceu: false, algomon: 11 },
+  { posicao: [7, 22], tipo: "g", ginasio: "r", venceu: false, algomon: 11 },
 ];
 
 const eJogador = {
@@ -240,6 +240,7 @@ function executaAcaoLocal(indice, posicao) {
         eJogador.posicaoRetorno = [...posicao];
         return false;
       case "g":
+        acaoGinasio(indice, celula);
         return false;
     }
   }
@@ -257,6 +258,39 @@ function acaoCidade(indice, celula) {
     eJogador.algVistos++;
     atualizaLinhaStatus();
     atualizaTabAlgodex(indAlgomon);
+  }
+}
+
+function acaoGinasio(indice, celula) {
+  const venceu = celula.venceu;
+  if (!venceu) {
+    const nomeGinasio = celula.ginasio;
+    const indAlgomon = celula.algomon;
+    if (nomeGinasio === "z" && eJogador.qtdInsignias < 3) {
+      // Ainda não pode batalhar contra o ginásio Z
+      eJogador.posicao = [...eJogador.posicaoRetorno];
+      posicionaJogador();
+    } else {
+      iniciaBatalha(indAlgomon);
+    }
+  }
+}
+
+function iniciaBatalha(indAlgomon) {
+  const algOponente = eAlgomons[indAlgomon];
+  algOponente.vida += 20;
+  const resultado = batalha();
+
+  console.log(algOponente);
+}
+
+function batalha(algOponente) {
+  const vidaAlgOpoComeco = algOponente.vida;
+  const vidaAlgJogComeco = [];
+  const algMochila = eJogador.algMochila;
+  const qtdAlgAcordados = Math.min(algMochila.length, 3);
+  for (let index = 0; index < qtdAlgAcordados; index++) {
+    vidaAlgJogComeco.push(algMochila[index].vida);
   }
 }
 
