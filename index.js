@@ -283,7 +283,7 @@ function acaoGinasio(indice, celula) {
 function iniciaBatalha(indAlgomon) {
   const algOponente = eAlgomons[indAlgomon];
   algOponente.vida += 20;
-  const resultado = batalha();
+  const resultado = batalha(algOponente);
 
   console.log(algOponente);
 }
@@ -292,9 +292,45 @@ function batalha(algOponente) {
   const vidaAlgOpoComeco = algOponente.vida;
   const vidaAlgJogComeco = [];
   const algMochila = eJogador.algMochila;
-  const qtdAlgAcordados = Math.min(algMochila.length, 3);
-  for (let index = 0; index < qtdAlgAcordados; index++) {
+  const qtdAlgBatalha = Math.min(algMochila.length, 3);
+  const algBatalha = [];
+  let qtdAlgDerrotados = 0;
+  let vitoria = false;
+  let turnoJog = true;
+
+  for (let index = 0; index < qtdAlgBatalha; index++) {
+    const algomon = eAlgomons[algMochila[index]];
+    algBatalha.push(algomon);
     vidaAlgJogComeco.push(algMochila[index].vida);
+  }
+
+  imprime("======== BATALHA COM LIDER DE GINASIO ========");
+  imprime("Seus algomons:");
+  for (const algomon of algBatalha) {
+    imprime(
+      `${algomon.nome} 
+      Atk:${algomon.ataque} 
+      HP:${algomon.vida} 
+      Type:${algomon.tipo.toUpperCase()}`
+    );
+  }
+  imprime(" ", "Algomon do oponente:");
+  imprime(
+    `${algOponente.nome} 
+    Atk:${algOponente.ataque} 
+    HP:${algOponente.vida} 
+    Type:${algOponente.tipo.toUpperCase()}`
+  );
+
+  // Ataques
+  while (qtdAlgDerrotados < qtdAlgBatalha && !vitoria) {
+    if (turnoJog) {
+      console.log("Turno do jogador");
+    } else {
+      console.log("Turno do oponente");
+      vitoria = true;
+    }
+    turnoJog = !turnoJog;
   }
 }
 
@@ -412,7 +448,6 @@ function criaRegistroVazio() {
 }
 
 function imprime() {
-  limpaAreaAcao();
   for (let index = 0; index < arguments.length; index++) {
     const bloco = document.createElement("p");
     bloco.textContent = arguments[index];
