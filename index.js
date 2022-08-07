@@ -287,7 +287,7 @@ function executaAcaoLocal(indice, posicao) {
 function verificaVitoria(tipoCelula) {
   if (tipoCelula === "g") {
     if (eJogador.algMochila.length === 0) {
-      imprime("================= FIM DE JOGO =================", true, true);
+      imprime("================= FIM DE JOGO =================", true);
       bloqueiaMovimento();
     } else if (eJogador.qtdInsignias === 4) {
       imprime("=========== PARABENS VOCE VENCEU! =============", true, true);
@@ -341,13 +341,13 @@ function acaoGinasio(indice, celula) {
         eJogador.qtdInsignias++;
         celula.venceu = true;
         eJogador.algMochila.push(indAlgomon);
+        const elemento = document.querySelector(`#n${indice}`);
+        elemento.classList.add("venceu");
       } else {
         eJogador.posicao = [...eJogador.posicaoRetorno];
         posicionaJogador();
       }
     }
-    const elemento = document.querySelector(`#n${indice}`);
-    elemento.classList.add("venceu");
   }
   atualizaLinhaStatus();
   atualizaTabAlgodex();
@@ -372,7 +372,7 @@ function batalha(algOponente) {
   let turnoJog = true;
 
   for (let index = 0; index < qtdAlgBatalha; index++) {
-    const algomon = eAlgomons[algMochila[index]];
+    const algomon = Object.assign({}, eAlgomons[algMochila[index]]);
     algBatalha.push(algomon);
     vidaAlgJogComeco.push(algomon.vida);
   }
