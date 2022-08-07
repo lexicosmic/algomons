@@ -259,22 +259,31 @@ function buscaCelula(celula) {
 // // Verificação de ação no local
 function executaAcaoLocal(indice, posicao) {
   if (indice === -1) return false;
-  else {
-    const celula = eMapa[indice];
-    const tipo = celula.tipo;
-    switch (tipo) {
-      case "p":
-        return true;
-      case "c":
-        acaoCidade(indice, celula);
-        eJogador.posicaoRetorno = [...posicao];
-        return false;
-      case "g":
-        acaoGinasio(indice, celula);
-        return false;
+  const celula = eMapa[indice];
+  const tipo = celula.tipo;
+  switch (tipo) {
+    case "p":
+      return true;
+    case "c":
+      acaoCidade(indice, celula);
+      eJogador.posicaoRetorno = [...posicao];
+      break;
+    case "g":
+      acaoGinasio(indice, celula);
+      break;
+  }
+  verificaVitoria(celula.tipo);
+  return false;
+}
+
+function verificaVitoria(tipoCelula) {
+  if (tipoCelula === "g") {
+    if (eJogador.algMochila.length === 0) {
+      imprime("================= FIM DE JOGO =================", true, true);
+    } else if (eJogador.qtdInsignias === 4) {
+      imprime("=========== PARABENS VOCE VENCEU! =============", true, true);
     }
   }
-  verificaVitoria();
 }
 
 function acaoCidade(indice, celula) {
