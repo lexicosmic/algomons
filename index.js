@@ -14,7 +14,7 @@ const eAlgomons = [
   { nome: "Ifssauro", ataque: 5, vida: 20, tipo: "c" }, // R
   { nome: "Whiledle", ataque: 3, vida: 40, tipo: "r" }, // X
   { nome: "Vectoray", ataque: 4, vida: 30, tipo: "d" }, // Y
-  { nome: "Ceeplusplus", ataque: 8, vida: 30, tipo: "l" }, // Z
+  { nome: "Ceeplusplus", ataque: 8, vida: 50, tipo: "l" }, // Z
 ];
 
 const mapaC = 23;
@@ -274,6 +274,7 @@ function executaAcaoLocal(indice, posicao) {
         return false;
     }
   }
+  verificaVitoria();
 }
 
 function acaoCidade(indice, celula) {
@@ -313,6 +314,7 @@ function acaoGinasio(indice, celula) {
       if (vitoria) {
         eJogador.qtdInsignias++;
         celula.venceu = true;
+        eJogador.algMochila.push(indAlgomon);
       } else {
         eJogador.posicao = [...eJogador.posicaoRetorno];
         posicionaJogador();
@@ -326,8 +328,10 @@ function acaoGinasio(indice, celula) {
 }
 
 function iniciaBatalha(indAlgomon) {
-  const algOponente = eAlgomons[indAlgomon];
-  algOponente.vida += 20;
+  const algOponente = Object.assign({}, eAlgomons[indAlgomon]);
+  if (indAlgomon !== 14) {
+    algOponente.vida += 20;
+  }
   return batalha(algOponente);
 }
 
