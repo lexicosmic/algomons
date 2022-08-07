@@ -141,41 +141,49 @@ let movimentoPermitido = true;
 let ultImpQuebraLinha = true;
 
 // Captura elementos do DOM
+let jogador = 0;
 const mapa = document.querySelector("#mapa");
 const algodexInfo = document.querySelector("#algodexInfo");
 const algomonsInfo = document.querySelector("#algomonsInfo");
 const insigniasInfo = document.querySelector("#insigniasInfo");
 const tabAlgodex = document.querySelector("#algodexTableBody");
 const areaAcao = document.querySelector("#areaAcao");
+const btnReiniciar = document.querySelector("#btnReiniciar");
 
 // // Inicia DOM
 // Constrói mapa
-let ind = 0;
-for (const elemento of eMapa) {
-  const celula = document.createElement("span");
-  switch (elemento.tipo) {
-    case "c":
-      if (elemento.posicao[0] === 3 && elemento.posicao[1] === 6)
-        celula.textContent = "🌆";
-      else celula.textContent = "🏙️";
-      break;
-    case "g":
-      celula.textContent = "🏟️";
-      break;
+function criaMapa() {
+  let ind = 0;
+  for (const elemento of eMapa) {
+    const celula = document.createElement("span");
+    switch (elemento.tipo) {
+      case "c":
+        if (elemento.posicao[0] === 3 && elemento.posicao[1] === 6)
+          celula.textContent = "🌆";
+        else celula.textContent = "🏙️";
+        break;
+      case "g":
+        celula.textContent = "🏟️";
+        break;
+    }
+    celula.classList.add("visitavel");
+    celula.setAttribute("id", `n${ind}`);
+    const posicao = elemento.posicao;
+    celula.style.gridRow = posicao[0] + 1;
+    celula.style.gridColumn = posicao[1] + 1;
+    mapa.appendChild(celula);
+    ind++;
   }
-  celula.classList.add("visitavel");
-  celula.setAttribute("id", `n${ind}`);
-  const posicao = elemento.posicao;
-  celula.style.gridRow = posicao[0] + 1;
-  celula.style.gridColumn = posicao[1] + 1;
-  mapa.appendChild(celula);
-  ind++;
 }
+criaMapa();
 
 // Cria jogador
-const jogador = document.createElement("span");
-jogador.textContent = "🏃";
-posicionaJogador();
+function criaJogador() {
+  jogador = document.createElement("span");
+  jogador.textContent = "🏃";
+  posicionaJogador();
+}
+criaJogador();
 
 function posicionaJogador() {
   const posicao = eJogador.posicao;
@@ -600,4 +608,42 @@ function limpaAreaAcao() {
     filhos[0].remove();
   }
   ultImpQuebraLinha = true;
+}
+
+// // Reiniciar jogo
+btnReiniciar.addEventListener("click", btnReiniciarClickListener);
+function btnReiniciarClickListener() {
+  eJogador.posicao = [3, 6];
+  eJogador.algMochila = [];
+  eJogador.algDesmaiados = [];
+  eJogador.algVistos = 0;
+  eJogador.qtdInsignias = 0;
+  eJogador.posicaoRetorno = [3, 6];
+  movimentoPermitido = true;
+  ultImpQuebraLinha = true;
+  atualizaLinhaStatus();
+  atualizaTabAlgodex();
+  posicionaJogador();
+  for (const celula of eMapa) {
+    if (celula.hasOwnProperty("visitado")) {
+      celula.visitado = false;
+    }
+    if (celula.hasOwnProperty("venceu")) {
+      celula.venceu = false;
+    }
+  }
+  while (mapa.hasChildNodes()) {
+    mapa.removeChild(mapa.lastChild);
+  }
+  limpaAreaAcao();
+  criaMapa();
+  criaJogador();
+  liberaBotoesMovimento();
+}
+
+function liberaBotoesMovimento() {
+  btnCima.removeAttribute("disabled");
+  btnEsq.removeAttribute("disabled");
+  btnBaixo.removeAttribute("disabled");
+  btnDir.removeAttribute("disabled");
 }

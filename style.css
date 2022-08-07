@@ -136,3 +136,8 @@ article {
     font-size: 1em;
   }
 }
+
+.btn-reiniciar-container {
+  display: flex;
+  justify-content: center;
+}
