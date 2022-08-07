@@ -280,10 +280,19 @@ function verificaVitoria(tipoCelula) {
   if (tipoCelula === "g") {
     if (eJogador.algMochila.length === 0) {
       imprime("================= FIM DE JOGO =================", true, true);
+      bloqueiaMovimento();
     } else if (eJogador.qtdInsignias === 4) {
       imprime("=========== PARABENS VOCE VENCEU! =============", true, true);
+      bloqueiaMovimento();
     }
   }
+}
+
+function bloqueiaMovimento() {
+  btnCima.setAttribute("disabled", "disabled");
+  btnEsq.setAttribute("disabled", "disabled");
+  btnBaixo.setAttribute("disabled", "disabled");
+  btnDir.setAttribute("disabled", "disabled");
 }
 
 function acaoCidade(indice, celula) {
