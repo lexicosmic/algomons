@@ -326,7 +326,7 @@ function acaoGinasio(indice, celula) {
   if (!celula.venceu) {
     const nomeGinasio = celula.ginasio;
     const indAlgomon = celula.algomon;
-    if (nomeGinasio === "z" && eJogador.qtdInsignias < 0) {
+    if (nomeGinasio === "z" && eJogador.qtdInsignias < 3) {
       // Ainda não pode batalhar contra o ginásio Z
       imprime(
         "Você precisa de três insignias para lutar contra esse treinador!",
