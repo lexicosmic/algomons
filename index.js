@@ -315,6 +315,11 @@ function acaoCidade(indice, celula) {
     eJogador.algVistos++;
     atualizaLinhaStatus();
     atualizaTabAlgodex();
+    imprime(
+      `Você capturou um ${eAlgomons[indAlgomon].nome} selvagem!`,
+      true,
+      true
+    );
   }
 }
 
@@ -377,7 +382,7 @@ function batalha(algOponente) {
     vidaAlgJogComeco.push(algomon.vida);
   }
 
-  imprime("======== BATALHA COM LIDER DE GINASIO ========", true, true);
+  imprime("======== BATALHA COM LÍDER DE GINÁSIO ========", true, true);
   imprime("Seus algomons:", true);
   for (const algomon of algBatalha) {
     imprime(
